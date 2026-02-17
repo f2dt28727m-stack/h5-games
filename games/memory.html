@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记忆配对 - Memory Match</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #2d3436;
+            color: white;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 15px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 350px;
+        }
+        .card {
+            width: 70px;
+            height: 70px;
+            background: #a29bfe;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .card:hover { transform: scale(1.05); }
+        .card.flipped { background: #fff; transform: rotateY(180deg); }
+        .card.matched { background: #55efc4; visibility: hidden; opacity: 0; transition: opacity 0.5s; }
+        .score { margin-top: 20px; font-size: 18px; }
+        button {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: #a29bfe;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #6c5ce7; }
+    </style>
+</head>
+<body>
+    <h1>🃏 记忆配对</h1>
+    <div class="grid" id="grid"></div>
+    <div class="score">步数: <span id="steps">0</span> | 配对: <span id="matches">0</span>/8</div>
+    <button onclick="initGame()">重新开始</button>
+    <script>
+        const emojis = ['🍎', '🍌', '🍇', '🍓', '🍒', '🍍', '🥝', '🍉'];
+        let cards = [], flipped = [], matched = 0, steps = 0;
+        
+        function initGame() {
+            cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            flipped = [];
+            matched = 0;
+            steps = 0;
+            document.getElementById('steps').textContent = 0;
+            document.getElementById('matches').textContent = 0;
+            render();
+        }
+        
+        function render() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = cards.map((emoji, i) => `
+                <div class="card ${flipped.includes(i) ? 'flipped' : ''}" 
+                     onclick="flip(${i})">${flipped.includes(i) || matched === 8 ? emoji : ''}</div>
+            `).join('');
+        }
+        
+        function flip(index) {
+            if (flipped.includes(index) || matched === 8 || flipped.length >= 2) return;
+            
+            flipped.push(index);
+            render();
+            
+            if (flipped.length === 2) {
+                steps++;
+                document.getElementById('steps').textContent = steps;
+                
+                const [i1, i2] = flipped;
+                if (cards[i1] === cards[i2]) {
+                    matched++;
+                    document.getElementById('matches').textContent = matched;
+                    setTimeout(() => {
+                        document.querySelectorAll('.card')[i1].classList.add('matched');
+                        document.querySelectorAll('.card')[i2].classList.add('matched');
+                        flipped = [];
+                        if (matched === 8) setTimeout(() => alert('恭喜! 用了 ' + steps + ' 步'), 300);
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        flipped = [];
+                        render();
+                    }, 1000);
+                }
+            }
+        }
+        
+        initGame();
+    </script>
+</body>
+</html>

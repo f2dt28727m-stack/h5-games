@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打砖块 - Brick Breaker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #2d3436;
+            color: white;
+        }
+        h1 { margin-bottom: 10px; }
+        canvas {
+            background: #000;
+            border: 2px solid #ff7675;
+            border-radius: 5px;
+        }
+        .score { margin-top: 10px; font-size: 20px; }
+        .controls { margin-top: 10px; font-size: 14px; color: #b2bec3; }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #ff7675;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧱 打砖块</h1>
+    <canvas id="game" width="320" height="400"></canvas>
+    <div class="score">分数: <span id="score">0</span></div>
+    <button onclick="resetGame()">重新开始</button>
+    <p class="controls">鼠标左右移动控制挡板</p>
+    <script>
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        
+        let paddle = { x: 120, width: 80, height: 10 };
+        let ball = { x: 160, y: 350, dx: 3, dy: -3, radius: 8 };
+        let bricks = [];
+        let score = 0, gameLoop;
+        
+        function initBricks() {
+            bricks = [];
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 8; col++) {
+                    bricks.push({
+                        x: col * 38 + 10,
+                        y: row * 20 + 30,
+                        width: 35,
+                        height: 15,
+                        color: ['#ff7675', '#fdcb6e', '#00cec9', '#a29bfe', '#55efc4'][row]
+                    });
+                }
+            }
+        }
+        
+        function resetGame() {
+            ball = { x: 160, y: 350, dx: 3 + Math.random() * 2, dy: -(3 + Math.random() * 2) };
+            paddle.x = 120;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            initBricks();
+            clearInterval(gameLoop);
+            gameLoop = setInterval(update, 20);
+        }
+        
+        function update() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw paddle
+            ctx.fillStyle = '#74b9ff';
+            ctx.fillRect(paddle.x, canvas.height - 20, paddle.width, paddle.height);
+            
+            // Draw ball
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.closePath();
+            
+            // Move ball
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+            
+            // Wall collision
+            if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) ball.dx *= -1;
+            if (ball.y - ball.radius < 0) ball.dy *= -1;
+            
+            // Paddle collision
+            if (ball.y + ball.radius > canvas.height - 20 && 
+                ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+                ball.dy *= -1;
+                ball.dx = (ball.x - paddle.x - paddle.width / 2) * 0.15;
+            }
+            
+            // Bottom collision - game over
+            if (ball.y + ball.radius > canvas.height) {
+                clearInterval(gameLoop);
+                alert('游戏结束! 分数: ' + score);
+                return;
+            }
+            
+            // Brick collision
+            bricks.forEach((brick, i) => {
+                if (ball.x > brick.x && ball.x < brick.x + brick.width &&
+                    ball.y > brick.y && ball.y < brick.y + brick.height) {
+                    ball.dy *= -1;
+                    bricks.splice(i, 1);
+                    score += 10;
+                    document.getElementById('score').textContent = score;
+                }
+            });
+            
+            // Draw bricks
+            bricks.forEach(brick => {
+                ctx.fillStyle = brick.color;
+                ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+            });
+            
+            // Win condition
+            if (bricks.length === 0) {
+                clearInterval(gameLoop);
+                alert('恭喜通关! 分数: ' + score);
+            }
+        }
+        
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            paddle.x = e.clientX - rect.left - paddle.width / 2;
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
+        });
+        
+        // Touch support
+        canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            paddle.x = e.touches[0].clientX - rect.left - paddle.width / 2;
+        });
+        
+        resetGame();
+    </script>
+</body>
+</html>
