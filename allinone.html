@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费小游戏 - 不用下载</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9900304220798571" crossorigin="anonymous"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a2e;color:#fff;min-height:100vh;padding-bottom:80px}
+        .header{background:linear-gradient(135deg,#ff6b6b,#ff8e8e);padding:20px;text-align:center}
+        .header h1{font-size:1.5rem}
+        .ad{padding:10px;background:#333;margin:10px;border-radius:8px;text-align:center;min-height:50px}
+        .ad ins{background:#333!important}
+        .section{padding:15px}
+        .section h2{font-size:1.1rem;margin-bottom:12px;color:#4ecdc4}
+        .game-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+        .game-card{background:#2d3436;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s}
+        .game-card:active{transform:scale(.95)}
+        .game-thumb{height:80px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+        .game-info{padding:10px}
+        .game-title{font-size:.9rem;font-weight:600}
+        .game-desc{font-size:.7rem;color:#888;margin-top:4px}
+        .bg-1{background:linear-gradient(135deg,#ff6b6b,#ff8e8e)}
+        .bg-2{background:linear-gradient(135deg,#4ecdc4,#44a08d)}
+        .bg-3{background:linear-gradient(135deg,#ffe66d,#f7dc6f)}
+        .bg-4{background:linear-gradient(135deg,#a29bfe,#6c5ce7)}
+        .bg-5{background:linear-gradient(135deg,#fd79a8,#e84393)}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:1000}
+        .modal.active{display:flex;flex-direction:column}
+        .modal-header{background:#ff6b6b;padding:12px;display:flex;justify-content:space-between;align-items:center}
+        .modal-title{font-weight:600}
+        .close-btn{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+        .game-container{flex:1;overflow:hidden;position:relative}
+        .game-container iframe{width:100%;height:100%;border:none}
+        .footer{background:#16213e;padding:20px;text-align:center;font-size:.8rem;color:#888}
+        @media(min-width:600px){.game-grid{grid-template-columns:repeat(3,1fr)}}
+    </style>
+</head>
+<body>
+    <div class="header"><h1>🎮 免费小游戏</h1><p>不用下载，手机电脑都能玩</p></div>
+    <div class="ad"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9900304220798571" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+    <div class="section">
+        <h2>🔥 热门推荐</h2>
+        <div class="game-grid">
+            <div class="game-card" onclick="openGame('2048')"><div class="game-thumb bg-1">🧩</div><div class="game-info"><div class="game-title">2048</div><div class="game-desc">数字益智</div></div></div>
+            <div class="game-card" onclick="openGame('snake')"><div class="game-thumb bg-2">🐍</div><div class="game-info"><div class="game-title">贪吃蛇</div><div class="game-desc">经典蛇蛇</div></div></div>
+            <div class="game-card" onclick="openGame('tetris')"><div class="game-thumb bg-3">🧱</div><div class="game-info"><div class="game-title">俄罗斯方块</div><div class="game-desc">堆积消除</div></div></div>
+            <div class="game-card" onclick="openGame('breakout')"><div class="game-thumb bg-4">🧱</div><div class="game-info"><div class="game-title">打砖块</div><div class="game-desc">弹球打砖</div></div></div>
+            <div class="game-card" onclick="openGame('memory')"><div class="game-thumb bg-5">🃏</div><div class="game-info"><div class="game-title">记忆配对</div><div class="game-desc">翻牌配对</div></div></div>
+        </div>
+    </div>
+    <div class="ad"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9900304220798571" data-ad-slot="1234567891" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+    <div class="footer">© 2026 免费小游戏</div>
+    <div class="modal" id="modal">
+        <div class="modal-header"><span class="modal-title" id="title">游戏</span><button class="close-btn" onclick="closeGame()">×</button></div>
+        <div class="game-container" id="gameContainer"><iframe id="gameFrame" style="width:100%;height:100%;border:none"></iframe></div>
+    </div>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <script>
+    const games={
+        '2048':`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>2048</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#faf8ef}.game-container{width:100%;max-width:400px;padding:10px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}h1{font-size:40px;color:#776e65}.score-box{background:#bbada0;padding:5px 15px;border-radius:5px;color:#fff;text-align:center}.score-label{font-size:12px}.score-value{font-size:20px;font-weight:bold}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:#bbada0;padding:10px;border-radius:5px}.cell{aspect-ratio:1;background:#cdc1b4;border-radius:3px;display:flex;justify-content:center;align-items:center;font-size:30px;font-weight:bold;color:#776e65}.cell[data-value="2"]{background:#eee4da}.cell[data-value="4"]{background:#ede0c8}.cell[data-value="8"]{background:#f2b179;color:#fff}.cell[data-value="16"]{background:#f59563;color:#fff}.cell[data-value="32"]{background:#f67c5f;color:#fff}.cell[data-value="64"]{background:#f65e3b;color:#fff}.new-game{margin-top:20px;padding:10px 20px;background:#8f7a66;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:16px}</style></head><body><div class="game-container"><div class="header"><h1>2048</h1><div class="score-box"><div class="score-label">分数</div><div class="score-value" id="score">0</div></div></div><div class="grid" id="grid"></div><button class="new-game" onclick="initGame()">新游戏</button></div><script>let grid=Array(16).fill(0),score=0;function initGame(){grid=Array(16).fill(0);score=0;addRandomTile();addRandomTile();render()}function addRandomTile(){let empty=grid.map((v,i)=>v===0?i:-1).filter(i=>i>=0);if(empty.length===0)return;let pos=empty[Math.floor(Math.random()*empty.length)];grid[pos]=Math.random()<0.9?2:4}function render(){const c=document.getElementById('grid');c.innerHTML=grid.map(v=>'<div class="cell" data-value="'+v+'">'+(v||'')+'</div>').join('');document.getElementById('score').textContent=score}function slide(row){let arr=row.filter(v=>v);for(let i=0;i<arr.length-1;i++){if(arr[i]===arr[i+1]){arr[i]*=2;score+=arr[i];arr.splice(i+1,1)}}while(arr.length<4)arr.push(0);return arr}function move(d){let r=[];if(d==='left')r=grid;else if(d==='right')r=grid.map((_,i)=>grid[Math.floor(i/4)*3-i+3]);else if(d==='up')r=[0,4,8,12,1,5,9,13,2,6,10,14,3,7,11,15].map(i=>grid[i]);else if(d==='down')r=[12,8,4,0,13,9,5,1,14,10,6,2,15,11,7,3].map(i=>grid[i]);let rows=[];for(let i=0;i<4;i++){let row=[r[i*4],r[i*4+1],r[i*4+2],r[i*4+3]];if(d==='left'||d==='up')row=slide(row);else row=slide(row.reverse()).reverse();rows.push(...row)}if(d==='right')grid=rows.map((_,i)=>rows[Math.floor(i/4)*3-i+3]);else if(d==='down')grid=[0,4,8,12,1,5,9,13,2,6,10,14,3,7,11,15].map(i=>rows[i]);else grid=rows;addRandomTile();render()}document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')move('left');else if(e.key==='ArrowRight')move('right');else if(e.key==='ArrowUp')move('up');else if(e.key==='ArrowDown')move('down')});initGame();<\/script></body></html>`,
+        'snake':`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>贪吃蛇</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#2d3436;color:#fff}canvas{background:#000;border:2px solid #00cec9;border-radius:5px}.score{margin-top:10px;font-size:20px}button{margin-top:15px;padding:10px 20px;background:#00cec9;border:none;border-radius:5px;cursor:pointer;font-size:16px}</style></head><body><h1>🐍 贪吃蛇</h1><canvas id="g"width="300"height="300"></canvas><div class="score">分数:<span id="s">0</span></div><button onclick="reset()">重新开始</button><script>const c=document.getElementById('g'),ctx=c.getContext('2d'),gs=15,tc=c.width/gs;let sn=[{x:10,y:10}],f={x:15,y:15},dx=1,dy=0,sc=0;function reset(){sn=[{x:10,y:10}];f={x:Math.floor(Math.random()*tc),y:Math.floor(Math.random()*tc)};dx=1;dy=0;sc=0;document.getElementById('s').textContent=sc;game()}function game(){const h={x:sn[0].x+dx,y:sn[0].y+dy};if(h.x<0||h.x>=tc||h.y<0||h.y>=tc){alert('游戏结束!分数:'+sc);return}for(let i=0;i<sn.length;i++){if(h.x===sn[i].x&&h.y===sn[i].y){alert('游戏结束!分数:'+sc);return}}sn.unshift(h);if(h.x===f.x&&h.y===f.y){sc+=10;document.getElementById('s').textContent=sc;f={x:Math.floor(Math.random()*tc),y:Math.floor(Math.random()*tc)}}else sn.pop();ctx.fillStyle='#000';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#00cec9';sn.forEach(s=>{ctx.fillRect(s.x*gs,s.y*gs,gs-2,gs-2)});ctx.fillStyle='#ff7675';ctx.fillRect(f.x*gs,f.y*gs,gs-2,gs-2);setTimeout(game,100)}document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&dx!==1){dx=-1;dy=0}else if(e.key==='ArrowRight'&&dx!==-1){dx=1;dy=0}else if(e.key==='ArrowUp'&&dy!==1){dx=0;dy=-1}else if(e.key==='ArrowDown'&&dy!==-1){dx=0;dy=1}});reset();<\/script></body></html>`,
+        'tetris':`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>俄罗斯方块</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#2d3436;color:#fff}canvas{background:#000;border:2px solid #fdcb6e}.score{margin-top:10px;font-size:20px}button{margin-top:15px;padding:10px 20px;background:#fdcb6e;border:none;border-radius:5px;cursor:pointer}</style></head><body><h1>🧱 俄罗斯方块</h1><canvas id="t"width="240"height="400"></canvas><div class="score">分数:<span id="sc">0</span></div><button onclick="init()">重新开始</button><script>const c=document.getElementById('t'),ctx=c.getContext('2d'),s=20,r=20,cg=12;const p=[[[1,1,1,1]],[[1,1],[1,1]],[[1,1,1],[0,1,0]],[[1,1,1],[1,0,0]],[[1,1,1],[0,0,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]]],cl=['#00cec9','#fdcb6e','#ff7675','#74b9ff','#a29bfe','#55efc4','#ffeaa7'];let bd=Array(r).fill().map(()=>Array(cg).fill(0)),pc=[],pos={x:0,y:0},ci=0,sc=0;function np(){ci=Math.floor(Math.random()*p.length);pc=p[ci];pos={x:Math.floor(cg/2)-Math.floor(pc[0].length/2),y:0}}function col(){for(let y=0;y<pc.length;y++){for(let x=0;x<pc[y].length;x++){if(pc[y][x]&&(bd[y+pos.y+x]===undefined||bd[y+pos.y][x+pos.x]!==undefined&&bd[y+pos.y][x+pos.x])){return true}}return false}}function mg(){pc.forEach((row,y)=>{row.forEach((v,x)=>{if(v)bd[y+pos.y][x+pos.x]=ci+1})});cll();np()}function cll(){outer:for(let y=r-1;y>=0;y--){for(let x=0;x<cg;x++){if(!bd[y][x])continue outer}bd.splice(y,1);bd.unshift(Array(cg).fill(0));sc+=100;document.getElementById('sc').textContent=sc;y++}}function dr(){ctx.fillStyle='#000';ctx.fillRect(0,0,c.width,c.height);bd.forEach((row,y)=>{row.forEach((v,x)=>{if(v){ctx.fillStyle=cl[v-1];ctx.fillRect(x*s,y*s,s-1,s-1)}}));pc.forEach((row,y)=>{row.forEach((v,x)=>{if(v){ctx.fillStyle=cl[ci];ctx.fillRect((x+pos.x)*s,(y+pos.y)*s,s-1,s-1)}}))}let lt=0;function upd(t=0){if(t-lt>500){pos.y++;if(col()){pos.y--;mg()}lt=t}dr();requestAnimationFrame(upd)}function init(){bd=Array(r).fill().map(()=>Array(cg).fill(0));sc=0;document.getElementById('sc').textContent=0;cancelAnimationFrame(0);np();upd()}document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){pos.x--;if(col())pos.x++}else if(e.key==='ArrowRight'){pos.x++;if(col())pos.x--}else if(e.key==='ArrowDown'){pos.y++;if(col()){pos.y--;mg()}}else if(e.key==='ArrowUp'){const r=pc[0].map((_,i)=>pc.map(r=>r[i]).reverse());const o=pc;pc=r;if(col())pc=o}});init();<\/script></body></html>`,
+        'breakout':`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>打砖块</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#2d3436;color:#fff}canvas{background:#000;border:2px solid #ff7675;border-radius:5px}.score{margin-top:10px;font-size:20px}button{margin-top:15px;padding:10px 20px;background:#ff7675;border:none;border-radius:5px;cursor:pointer}</style></head><body><h1>🧱 打砖块</h1><canvas id="b"width="320"height="400"></canvas><div class="score">分数:<span id="sc">0</span></div><button onclick="init()">重新开始</button><script>const c=document.getElementById('b'),ctx=c.getContext('2d');let p={x:120,w:80,h:10},bl={x:160,y:350,dx:3,dy:-3,r:8},br=[],sc=0;function initB(){br=[];for(let row=0;row<5;row++){for(let col=0;col<8;col++){br.push({x:col*38+10,y:row*20+30,w:35,h:15,c:['#ff7675','#fdcb6e','#00cec9','#a29bfe','#55efc4'][row]})}}}function init(){bl={x:160,y:350,dx:3+Math.random()*2,dy:-(3+Math.random()*2)};p.x=120;sc=0;document.getElementById('sc').textContent=0;initB();loop()}function loop(){ctx.fillStyle='#000';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#74b9ff';ctx.fillRect(p.x,c.height-20,p.w,p.h);ctx.beginPath();ctx.arc(bl.x,bl.y,bl.r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.closePath();bl.x+=bl.dx;bl.y+=bl.dy;if(bl.x+bl.r>c.width||bl.x-bl.r<0)bl.dx*=-1;if(bl.y-bl.r<0)bl.dy*=-1;if(bl.y+bl.r>c.height-20&&bl.x>p.x&&bl.x<p.x+p.w){bl.dy*=-1;bl.dx=(bl.x-p.x-p.w/2)*0.15}if(bl.y+bl.r>c.height){alert('游戏结束!分数:'+sc);return}br.forEach((b,i)=>{if(bl.x>b.x&&bl.x<b.x+b.w&&bl.y>b.y&&bl.y<b.y+b.h){bl.dy*=-1;br.splice(i,1);sc+=10;document.getElementById('sc').textContent=sc}});br.forEach(b=>{ctx.fillStyle=b.c;ctx.fillRect(b.x,b.y,b.w,b.h)});if(br.length===0){alert('恭喜通关!分数:'+sc);return}requestAnimationFrame(loop)}c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();p.x=e.clientX-r.left-p.w/2;if(p.x<0)p.x=0;if(p.x+p.w>c.width)p.x=c.width-p.w});init();<\/script></body></html>`,
+        'memory':`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>记忆配对</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#2d3436;color:#fff;padding:20px}h1{margin-bottom:15px}.g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:350px}.c{width:70px;height:70px;background:#a29bfe;border-radius:10px;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:30px;transition:transform .3s}.c:hover{transform:scale(1.05)}.c.flipped{background:#fff;transform:rotateY(180deg)}.c.matched{background:#55efc4;visibility:hidden;opacity:0;transition:opacity .5s}.st{margin-top:20px;font-size:18px}button{margin-top:15px;padding:10px 25px;background:#a29bfe;border:none;border-radius:5px;color:#fff;cursor:pointer;font-size:16px}</style></head><body><h1>🃏 记忆配对</h1><div class="g" id="g"></div><div class="st">步数:<span id="st">0</span>|配对:<span id="mt">0</span>/8</div><button onclick="init()">重新开始</button><script>const e=['🍎','🍌','🍇','🍓','🍒','🍍','🥝','🍉'];let c=[],f=[],m=0,st=0;function init(){c=[...e,...e].sort(()=>Math.random()-.5);f=[];m=0;st=0;document.getElementById('st').textContent=0;document.getElementById('mt').textContent=0;render()}function render(){const g=document.getElementById('g');g.innerHTML=c.map((em,i)=>'<div class="c '+(f.includes(i)?'flipped':'')+'" onclick="flip('+i+')">'+(f.includes(i)||m===8?em:'')+'</div>').join('')}function flip(i){if(f.includes(i)||m===8||f.length>=2)return;f.push(i);render();if(f.length===2){st++;document.getElementById('st').textContent=st;const[i1,i2]=f;if(c[i1]===c[i2]){m++;document.getElementById('mt').textContent=m;setTimeout(()=>{document.querySelectorAll('.c')[i1].classList.add('matched');document.querySelectorAll('.c')[i2].classList.add('matched');f=[];if(m===8)setTimeout(()=>alert('恭喜!用了'+st+'步'),300)},500)}else{setTimeout(()=>{f=[];render()},1000)}}}init();<\/script></body></html>`
+    };
+    let currentBlobUrl = null;
+    function openGame(name){
+        document.getElementById('title').textContent=name;
+        const gameHtml = games[name];
+        const blob = new Blob([gameHtml], {type: 'text/html'});
+        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = URL.createObjectURL(blob);
+        document.getElementById('gameFrame').src = currentBlobUrl;
+        document.getElementById('modal').classList.add('active');
+    }
+    function closeGame(){
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl);
+            currentBlobUrl = null;
+        }
+        document.getElementById('gameFrame').src = 'about:blank';
+        document.getElementById('modal').classList.remove('active');
+    }
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGame()});
+    </script>
+</body>
+</html>
